@@ -16,41 +16,45 @@ const particles = [];
 
 /////////////////////// instintiat Player  ///////////////////////
 
-const player = new Player({ pos: new Vector(width / 2, height - height / 10) });
+const player = new Player({
+    pos: new Vector(width / 2, height - height / 10),
+    color: "red",
+});
 
 /////////////////////// instintiat Enemy  ///////////////////////
 const distBetweenEnemy = 50;
-const enemyNum = 100;
-const enemyLineNum = 20;
-const offset = width / 20;
-let row = 0;
-for (let i = 0; i < enemyNum; i++) {
-    if (i % enemyLineNum == 0 && i !== 0) row++;
-    const enemy = new Player({
-        pos: new Vector(offset * (i - enemyLineNum * row), offset * (row + 1)),
-        color: "#0a0",
-    });
-    enemies.push(enemy);
+const enemyNum = 20;
+const enemyLineNum = 5;
+const offset = width / 10;
+for (let i = 1; i <= enemyLineNum; i++) {
+    for (let j = 1; j <= enemyNum; j++) {
+        const enemy = new Enemy({
+            pos: new Vector(offset + j * 50, i * 50),
+            color: "#0a0",
+            radius: 10,
+        });
+        enemies.push(enemy);
+    }
 }
 let frame = 0;
-
 /////////////////////// Controls Functions  ///////////////////////
 
 const moveleft = () => {
-    player.setAcc(new Vector(1, 0));
+    player.acc.setX(1);
 };
 const moveRight = () => {
-    player.setAcc(new Vector(-1, 0));
+    player.acc.setX(-1);
 };
 const Stop = () => {
-    player.setAcc(new Vector(0, 0));
+    player.acc.setX(0);
 };
 const shoot = () => {
     const shot = new Projectile({
         pos: new Vector(player.pos.x, player.pos.y),
+        radius: 3,
         maxSpeed: 50,
     });
-    shot.setAcc(new Vector(0, -2));
+    shot.acc.setY(-1);
     shots.push(shot);
 };
 Controls.setFuncs(moveleft, moveRight, shoot, Stop);
@@ -87,17 +91,16 @@ const animate = () => {
                 }
 
                 /////////////////////// Remove Enemy & Shot ///////////////////////
-
                 setTimeout(() => {
-                    arr.splice(arr.indexOf(shot), 1);
                     eArr.splice(eArr.indexOf(enemy), 1);
+                    arr.splice(arr.indexOf(shot), 1);
                 }, 0);
             }
         });
 
         /////////////////////// Shot OOB ///////////////////////
 
-        if (shot.pos.y < 0) {
+        if (shot.pos.y < -200) {
             setTimeout(() => {
                 arr.splice(arr.indexOf(shot), 1);
             }, 0);

@@ -6,33 +6,84 @@ class Vector {
         this.y = y;
         this.mag;
     }
-    /////////////////////// Add Vector (vec) to currnt instance  ///////////////////////
-    add(vec) {
-        this.x += vec.x;
-        this.y += vec.y;
-        this.resetMag();
+    setX(value) {
+        this.x = value;
     }
-    /////////////////////// substract Vector (vec) from currnt instance  ///////////////////////
-    sub(vec) {
-        this.x -= vec.x;
-        this.y -= vec.y;
-        this.resetMag();
+
+    getX() {
+        return this.x;
     }
-    /////////////////////// multiply currnt instance by a value (num)  ///////////////////////
-    multi(num) {
-        this.x *= num;
-        this.y *= num;
-        this.resetMag();
+
+    setY(value) {
+        this.y = value;
     }
-    /////////////////////// set the max Length/dirction 'vectors are confusing :'( ' of the Vector  ///////////////////////
-    setMag(mag) {
-        this.mag = mag;
+
+    getY() {
+        return this.y;
     }
-    /////////////////////// constraint the bounds of currnt instance  ///////////////////////
-    resetMag() {
-        if (this.x > this.mag) this.x = this.mag;
-        if (this.y > this.mag) this.y = this.mag;
-        if (this.x < -this.mag) this.x = -this.mag;
-        if (this.y < -this.mag) this.y = -this.mag;
+
+    setAngle(angle) {
+        const length = this.getLength();
+        this.x = Math.cos(angle) * length;
+        this.y = Math.sin(angle) * length;
     }
+
+    getAngle() {
+        return Math.atan2(this.y, this.x);
+    }
+
+    setLength(length) {
+        const angle = this.getAngle();
+        this.x = Math.cos(angle) * length;
+        this.y = Math.sin(angle) * length;
+    }
+
+    getLength() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    add(v2) {
+        return new Vector(this.x + v2.getX(), this.y + v2.getY());
+    }
+
+    subtract(v2) {
+        return new Vector(this.x - v2.getX(), this.y - v2.getY());
+    }
+
+    multiply(val) {
+        return new Vector(this.x * val, this.y * val);
+    }
+
+    divide(val) {
+        return new Vector(this.x / val, this.y / val);
+    }
+
+    addTo(v2) {
+        this.x += v2.getX();
+        this.y += v2.getY();
+    }
+
+    subtractFrom(v2) {
+        this.x -= v2.getX();
+        this.y -= v2.getY();
+    }
+
+    multiplyBy(val) {
+        this.x *= val;
+        this.y *= val;
+    }
+
+    divideBy(val) {
+        this.x /= val;
+        this.y /= val;
+    }
+    // setMag(mag) {
+    //     this.mag = mag;
+    // }
+    // resetMag() {
+    //     if (this.x > this.mag) this.x = this.mag;
+    //     if (this.y > this.mag) this.y = this.mag;
+    //     if (this.x < -this.mag) this.x = -this.mag;
+    //     if (this.y < -this.mag) this.y = -this.mag;
+    // }
 }

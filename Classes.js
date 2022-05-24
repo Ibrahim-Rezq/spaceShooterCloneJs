@@ -21,28 +21,27 @@ class Actor {
         this.pos = pos;
         this.vel = new Vector(0, 0);
         this.acc = acc;
-        this.vel.setMag(maxSpeed);
         this.friction = 0.9;
         this.radius = radius;
         this.color = color;
     }
     update() {
-        this.vel.add(this.acc);
-        this.vel.multi(this.friction);
-        this.pos.add(this.vel);
+        this.vel.addTo(this.acc);
+        this.vel.multiplyBy(this.friction);
+        this.pos.addTo(this.vel);
         this.draw();
     }
     draw() {
         context.beginPath();
         context.fillStyle = this.color;
-        context.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
+        context.arc(
+            this.pos.getX(),
+            this.pos.getY(),
+            this.radius,
+            0,
+            Math.PI * 2
+        );
         context.fill();
-    }
-
-    /////////////////////// set the accelration of the instance  ///////////////////////
-    setAcc(vec) {
-        this.acc.x = vec.x;
-        this.acc.y = vec.y;
     }
 }
 /////////////////////// Player Class  ///////////////////////
@@ -62,8 +61,28 @@ class Player extends Actor {
     }
     update() {
         super.update();
-        if (this.pos.x < width / 10) this.pos.x = width / 10;
-        if (this.pos.x > width - width / 10) this.pos.x = width - width / 10;
+        if (this.pos.getX() < width / 10) this.pos.setX(width / 10);
+        if (this.pos.getX() > width - width / 10)
+            this.pos.setX(width - width / 10);
+    }
+}
+/////////////////////// Player Class  ///////////////////////
+
+class Enemy extends Actor {
+    /*
+        prams/props is an object with {
+            pos -> postion
+            acc -> accelration // if object moves
+            maxSpeed -> maximum speed // if object moves
+            raduis -> radius for circels only // for now
+            color -> object color 
+        }
+    */
+    constructor(props) {
+        super(props);
+    }
+    update() {
+        super.update();
     }
 }
 /////////////////////// Projectile Class 'like bullts'  ///////////////////////
@@ -108,7 +127,7 @@ class Particle extends Actor {
     }
     update() {
         super.update();
-        this.pos.sub(new Vector(1 * this.Vscatar, 1 * this.Hscatar));
+        this.pos.subtractFrom(new Vector(1 * this.Vscatar, 1 * this.Hscatar));
         this.alpha -= 0.03;
     }
     draw() {
