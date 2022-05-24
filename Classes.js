@@ -15,33 +15,33 @@ class Actor {
         pos = new Vector(0, 0),
         acc = new Vector(0, 0),
         radius = 10,
-        color = "red",
+        color = 'red',
         maxSpeed = 10,
     }) {
-        this.pos = pos;
-        this.vel = new Vector(0, 0);
-        this.acc = acc;
-        this.friction = 0.9;
-        this.radius = radius;
-        this.color = color;
+        this.pos = pos
+        this.vel = new Vector(0, 0)
+        this.acc = acc
+        this.friction = 0.9
+        this.radius = radius
+        this.color = color
     }
     update() {
-        this.vel.addTo(this.acc);
-        this.vel.multiplyBy(this.friction);
-        this.pos.addTo(this.vel);
-        this.draw();
+        this.vel.addTo(this.acc)
+        this.vel.multiplyBy(this.friction)
+        this.pos.addTo(this.vel)
+        this.draw()
     }
     draw() {
-        context.beginPath();
-        context.fillStyle = this.color;
+        context.beginPath()
+        context.fillStyle = this.color
         context.arc(
             this.pos.getX(),
             this.pos.getY(),
             this.radius,
             0,
             Math.PI * 2
-        );
-        context.fill();
+        )
+        context.fill()
     }
 }
 /////////////////////// Player Class  ///////////////////////
@@ -57,13 +57,13 @@ class Player extends Actor {
         }
     */
     constructor(props) {
-        super(props);
+        super(props)
     }
     update() {
-        super.update();
-        if (this.pos.getX() < width / 10) this.pos.setX(width / 10);
+        super.update()
+        if (this.pos.getX() < width / 10) this.pos.setX(width / 10)
         if (this.pos.getX() > width - width / 10)
-            this.pos.setX(width - width / 10);
+            this.pos.setX(width - width / 10)
     }
 }
 /////////////////////// Player Class  ///////////////////////
@@ -79,10 +79,10 @@ class Enemy extends Actor {
         }
     */
     constructor(props) {
-        super(props);
+        super(props)
     }
     update() {
-        super.update();
+        super.update()
     }
 }
 /////////////////////// Projectile Class 'like bullts'  ///////////////////////
@@ -98,7 +98,7 @@ class Projectile extends Actor {
         }
     */
     constructor(props) {
-        super(props);
+        super(props)
     }
 }
 /////////////////////// Particle Class   ///////////////////////
@@ -120,20 +120,21 @@ class Particle extends Actor {
         }
     */
     constructor(props) {
-        super(props);
-        this.alpha = props.alpha || 1;
-        this.Vscatar = props.Vscatar || 0;
-        this.Hscatar = props.Hscatar || 0;
+        super(props)
+        this.alpha = props.alpha || 1
+        this.Vscatar = props.Vscatar || 0
+        this.Hscatar = props.Hscatar || 0
     }
     update() {
-        super.update();
-        this.pos.subtractFrom(new Vector(1 * this.Vscatar, 1 * this.Hscatar));
-        this.alpha -= 0.03;
+        super.update()
+        // this.pos.subtractFrom(new Vector(1 * this.Vscatar, 1 * this.Hscatar));
+        this.acc.subtractFrom(new Vector(0, -0.099))
+        this.alpha -= 0.03
     }
     draw() {
-        context.save();
-        context.globalAlpha = this.alpha;
-        super.draw();
-        context.restore();
+        context.save()
+        context.globalAlpha = this.alpha
+        super.draw()
+        context.restore()
     }
 }
